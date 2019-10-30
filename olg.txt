@@ -1,0 +1,21 @@
+#Values for parameters
+alpha = 0.33
+n = 0.02
+K=1
+L=1
+A=1
+s=1
+r=1.025
+rho = 0.04
+theta=0.5
+# Model equations
+Y = A*(K^alpha)*(L^(1-alpha))
+K=L(-1)*s(-1)
+L = L(-1)*(1+n)
+w=(1-alpha)*A*k^alpha
+s=w/(((1+r)^((theta-1)/theta))*((1+rho)^(1/theta)) + 1)
+r=alpha*A*k^(alpha-1)
+c1=w-s
+c2=s(-1)*(1+r)
+k=K/L
+timeline 0 200

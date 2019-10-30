@@ -1,0 +1,17 @@
+#Angiv værdier for parametre
+alpha = 1/3
+delta = 0.05
+s = 0.2
+n = 0.01
+#Initial values
+K = 6
+L = 2
+#Produktionsfunktion
+Y = (K^alpha) * (L^(1-alpha))
+K = K(-1) + (s*Y - delta*K(-1))
+L = L(-1)*(1+n)
+y=Y/L
+k=K/L
+beta=K/Y
+beta1=y/k
+timeline 0 200
