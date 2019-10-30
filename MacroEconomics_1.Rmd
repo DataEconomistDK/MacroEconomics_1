@@ -5,6 +5,70 @@ date: "30/10/2019"
 output: html_document
 ---
 
+```{r}
+library(expm)
+library(igraph)
+library(networkD3)
+#install.packages("https://github.com/S120/PKSFC/raw/master/PKSFC_1.5.tar.gz", repos = NULL) 
+library(PKSFC)
+```
+
+# Solow
+
+## Baseline
+```{r}
+solow<-sfc.model("Solow.txt",modelName="solow") # this reads the model from text file 
+solow<-sfc.check(solow,fill=T) # this checks whether system of equations is complete 
+data<-simulate(solow, maxIter=200) # this simulates the model for 200 iterations
+y_model1 = data$baseline[,"y"] # this extracts a variable of interest (y in this case) 
+k_model1 = data$baseline[,"k"] # this extracts k from the model
+
+plot(y_model1, t="l", ylab="output per worker", xlab="")
+
+plot(k_model1, t="l", ylab = "capital per worker", xlab = "")
+```
+
+## Higher initial value of K
+
+Steady state is achieved faster. 
+
+```{r}
+solow$variables[5, 2]=2 # changing initial value of k
+solow<-sfc.check(solow,fill=T)
+data1<-simulate(solow, maxIter=200)
+y_model2=data1$baseline[,"y"]
+
+plot(y_model2, t="l", ylab="ouput per worker", xlab = "") 
+lines(y_model1, t="l", col="blue", xlab="")
+```
+
+## Permanent increase in savings rate from 20% to 40%, after 100 iterations
+
+We see that the model already had achieved steady state, but that the increase in the savings rate by 20%-points, made output pr. worker accelerate a lot until the new steady state is achieved. This happens as more money flows into investment in capital. 
+```{r}
+# I create a shock after 100 iterations
+init = data$baseline[0,]
+shock1<-sfc.addScenario(model=solow,vars="s",values=0.4,inits=100,ends=200,starts=init) 
+shock1_data<-simulate(shock1, maxIter=200)
+y_shock1<-shock1_data$scenario[,"y"]
+
+par(mar=c(2,2,2,2))
+plot(y_shock1, t="l", ylab="ouput per worker", xlab = "")
+```
+
+We can now plot the effect on the growth rate of output pr. worker. (GDP rate). 
+
+We see that when the shock hits at iteration 100 the growth ratee spikes, whereafter it deaccelerate until it hits 0 in steady state. 
+```{r}
+# Plot the results of savings rate shock on growth rate of output per worker
+growth_model2=diff(log(y_model2))
+growth_shock1=diff(log(y_shock1))
+plot(growth_shock1, t="l", ylab="growth rate of y", xlab = "") 
+lines(growth_model2, t="l", col="blue", xlab="")
+```
+
+
+
 
 
 
