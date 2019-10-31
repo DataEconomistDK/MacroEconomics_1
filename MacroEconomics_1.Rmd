@@ -11,6 +11,13 @@ library(igraph)
 library(networkD3)
 #install.packages("https://github.com/S120/PKSFC/raw/master/PKSFC_1.5.tar.gz", repos = NULL) 
 library(PKSFC)
+library(Matrix)
+library(MASS)
+library(nleqslv) 
+library(Rcpp)
+library(methods)
+#install.packages("gEcon_1.2.0.tar.gz", repos = NULL, type = "source") # not supported
+#library(gEcon)
 ```
 
 # Solow
@@ -58,7 +65,7 @@ plot(y_shock1, t="l", ylab="ouput per worker", xlab = "")
 
 We can now plot the effect on the growth rate of output pr. worker. (GDP rate). 
 
-We see that when the shock hits at iteration 100 the growth ratee spikes, whereafter it deaccelerate until it hits 0 in steady state. 
+We see that when the shock hits at iteration 100 the growth rates spikes, whereafter it deaccelerate until it hits 0 in steady state. 
 ```{r}
 # Plot the results of savings rate shock on growth rate of output per worker
 growth_model2=diff(log(y_model2))
@@ -66,6 +73,43 @@ growth_shock1=diff(log(y_shock1))
 plot(growth_shock1, t="l", ylab="growth rate of y", xlab = "") 
 lines(growth_model2, t="l", col="blue", xlab="")
 ```
+
+## Overlapping generations (OLG) Model
+
+In this model, they only have income in the first period, and in the second period they only have the compounded savings. 
+
+Not much info in slides and some code did not work. 
+
+# DSGE
+Dynamic Stochastic General Equilibrium (DSGE) models have become the workhorses of modern mainstream macroeconomics
+
+Dynamic stochastic - meaning they are concerned with intertemporal decisions which are subject to stochastic shocks
+
+In general, DSGE models are characterised by agents that solve well-specified optimization problems
+
+1. Real Business Cycle models based on neoclassical frameworks – (flexible prices)
+2. New-Keynesian DSGE models – (sticky prices)
+
+Of couse there is overlaps!
+
+**RBC:**
+
+The neoclassical framework is characterized by agents that solve well-specified optimization problems in settings with no, or few market imperfections
+Agents are fully rational. Particularly RBC models assume that all agents are homogeneous
+The most typical model assumes that prices are fully flexible Firms are perfectly competitive
+Exogenous stochastic real shocks (e.g., technological shock) are the predominant cause of business cycles
+Monetary and demand side shocks have no real effect on output and employment
+
+**New Keynesian:**
+
+The New Keynesian framework derive the aggregate behaviour from assumptions about households and firms that are forward-looking and maximize utility and profits
+In contrast to the neoclassicals, the NK allows for more frictions and market imperfections
+Sticky prices are a key ingredient in Keynesian models. Monopolistic competition is one of the sources of price stickiness
+Short-run non-neutrality of money: Money supply can have real effects in the short-run
+A number of different approaches have been used to introduce sticky prices into the New Keynesian models
+The most common approach today is to assume that a random fraction 1 − θ of firms are allowed to reoptimize their price in the beginning of each period
+
+
 
 
 

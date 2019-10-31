@@ -1,0 +1,18 @@
+setwd("/Users/mikaelrandrupbyrialsen/Dropbox/Undervisning/Efterår2019/V.Makro")
+valuta<-read.csv2("CPI.csv",sep=";",header=TRUE)
+infl<-valuta$Annual.rate.of.change
+output<-valuta$Output.gap
+rente<-valuta$Rente
+#Parameterværdier
+r_n<-0.02
+pi_n<-0.02
+phi_pi<-0.5
+phi_y<-0.5
+#Udregn en vektor med Taylor-renten
+Taylor=r_n+infl+phi_pi*(infl-pi_n)+phi_y*(output)
+mean(rente)
+mean(Taylor)
+matplot(1992:2016,Taylor,type="l",xlab="År",main="Taylor-rente for Danmark 1992-2016",sub="correlation 0.28 - from 1997 0.86")
+lines(1992:2016,rente,col="grey")
+cor(Taylor,rente)
+cor(Taylor[6:25],rente[6:25])
